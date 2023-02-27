@@ -1,4 +1,5 @@
-import { Controller, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Post, Body, Patch, Param, Get, UseGuards } from '@nestjs/common'
+import { AuthGuard } from '@nestjs/passport'
 import { AuthService } from './auth.service'
 import { LoginUserDto } from './dto'
 import { CreateUserDto } from './dto/create-user.dto'
@@ -23,8 +24,9 @@ export class AuthController {
     return this.authService.update(+id, updateUserDto)
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id)
+  @Get('private')
+  @UseGuards(AuthGuard())
+  testingPrivateRout() {
+    return 'yes'
   }
 }
